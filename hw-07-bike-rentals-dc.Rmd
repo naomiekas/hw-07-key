@@ -1,10 +1,7 @@
 ---
 title: "HW 07 - Bike rentals in DC"
 output: 
-  tufte::tufte_html:
-    css: ../hw.css
-    tufte_variant: "envisioned"
-    highlight: pygments
+  html_document
 link-citations: yes
 ---
 
@@ -22,8 +19,8 @@ knitr::opts_chunk$set(
 knitr::include_graphics("img/viktor-kern-UdGEXZtlx-E-unsplash.jpg")
 ```
 
-Bike sharing systems are new generation of traditional bike rentals where whole process from membership, rental and return back has become automatic.
-Through these systems, user is able to easily rent a bike from a particular position and return back at another position.
+Bike sharing systems are new generation of traditional bike rentals where the whole process from membership, rental and return back has become automatic.
+Through these systems, the user is able to easily rent a bike from a particular position and return back at another position.
 Currently, there are about over 500 bike-sharing programs around the world which is composed of over 500 thousands bicycles.
 Today, there exists great interest in these systems due to their important role in traffic, environmental and health issues.
 
@@ -49,8 +46,7 @@ If anything is missing, commit and push again.
 
 ## Packages
 
-We'll use the **tidyverse** package for much of the data wrangling and visualisation and the data lives in the **dsbox** package.
-These packages are already installed for you.
+We'll use the **tidyverse** package for much of the data wrangling and visualization and the data lives in the **dsbox** package.
 You can load them by running the following in your Console:
 
 ```{r load-packages, message = FALSE, eval = TRUE}
@@ -102,7 +98,7 @@ dcbikeshare %>%
       title = "Bike rentals in DC, 2011 and 2012",
       subtitle = "Warmer temperatures associated with more bike rentals",
       x = "Date",
-      y = "Bike renrals",
+      y = "Bike rentals",
       color = "Temperature (C)"
     ) +
   theme_minimal()
@@ -115,10 +111,10 @@ dcbikeshare %>%
 ## Modelling
 
 9.  Fit a linear model predicting total daily bike rentals from daily temperature.
-    Write the linear model, interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
+    Interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
 
 10. Fit another linear model predicting total daily bike rentals from daily feeling temperature.
-    Write the linear model, interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
+    Interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
     Is temperature or feeling temperature a better predictor of bike rentals?
     Explain your reasoning.
 
