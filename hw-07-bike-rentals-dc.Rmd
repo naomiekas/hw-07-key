@@ -101,6 +101,13 @@ dcbikeshare <- dcbikeshare%>%
 
 4.  Recode the `weathersit` variable as 1 - clear, 2 - mist, 3 - light precipitation, and 4 - heavy precipitation, with clear as the baseline.
 
+```{r}
+dcbikeshare <- dcbikeshare%>%
+  mutate(weathersit = as.factor(weathersit))%>%
+  mutate(weathersit = fct_recode(weathersit, clear = "1", mist = "2", lightprecipitation = "3", heavyprecipitation = "4"))
+```
+
+
 5.  Calculate raw temperature, feeling temperature, humidity, and windspeed as their values given in the dataset multiplied by the maximum raw values stated in the codebook for each variable.
     Instead of writing over the existing variables, create new ones with concise but informative names.
 

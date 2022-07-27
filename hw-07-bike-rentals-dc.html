@@ -462,9 +462,14 @@ and 2012, with 2011 as the baseline level.</li>
   mutate(yr = as.factor(yr))%&gt;%
   mutate(yr = fct_recode(yr, &quot;2011&quot; = &quot;0&quot;, &quot;2012&quot; = &quot;1&quot;))</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Recode the <code>weathersit</code> variable as 1 - clear, 2 -
-mist, 3 - light precipitation, and 4 - heavy precipitation, with clear
-as the baseline.</p></li>
+<li>Recode the <code>weathersit</code> variable as 1 - clear, 2 - mist,
+3 - light precipitation, and 4 - heavy precipitation, with clear as the
+baseline.</li>
+</ol>
+<pre class="r"><code>dcbikeshare &lt;- dcbikeshare%&gt;%
+  mutate(weathersit = as.factor(weathersit))%&gt;%
+  mutate(weathersit = fct_recode(weathersit, clear = &quot;1&quot;, mist = &quot;2&quot;, lightprecipitation = &quot;3&quot;, heavyprecipitation = &quot;4&quot;))</code></pre>
+<ol start="5" style="list-style-type: decimal">
 <li><p>Calculate raw temperature, feeling temperature, humidity, and
 windspeed as their values given in the dataset multiplied by the maximum
 raw values stated in the codebook for each variable. Instead of writing
