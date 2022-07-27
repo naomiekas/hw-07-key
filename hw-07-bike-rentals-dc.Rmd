@@ -110,6 +110,15 @@ dcbikeshare <- dcbikeshare%>%
 
 5.  Calculate raw temperature, feeling temperature, humidity, and windspeed as their values given in the dataset multiplied by the maximum raw values stated in the codebook for each variable.
     Instead of writing over the existing variables, create new ones with concise but informative names.
+    
+```{r}
+dcbikeshare <- dcbikeshare%>%
+  mutate(rawtemp = temp * 41,
+         feeltemp = atemp * 50,
+         humid = hum * 100, 
+         wind = windspeed * 67)
+```
+    
 
 6.  Check that the sum of `casual` and `registered` adds up to `cnt` for each record.
     **Hint:** One way of doing this is to create a new column that takes on the value `TRUE` if they add up and `FALSE` if not, and then checking if all values in that column are `TRUE`s.

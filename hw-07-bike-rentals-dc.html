@@ -470,18 +470,25 @@ baseline.</li>
   mutate(weathersit = as.factor(weathersit))%&gt;%
   mutate(weathersit = fct_recode(weathersit, clear = &quot;1&quot;, mist = &quot;2&quot;, lightprecipitation = &quot;3&quot;, heavyprecipitation = &quot;4&quot;))</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li><p>Calculate raw temperature, feeling temperature, humidity, and
+<li>Calculate raw temperature, feeling temperature, humidity, and
 windspeed as their values given in the dataset multiplied by the maximum
 raw values stated in the codebook for each variable. Instead of writing
 over the existing variables, create new ones with concise but
-informative names.</p></li>
-<li><p>Check that the sum of <code>casual</code> and
+informative names.</li>
+</ol>
+<pre class="r"><code>dcbikeshare &lt;- dcbikeshare%&gt;%
+  mutate(rawtemp = temp * 41,
+         feeltemp = atemp * 50,
+         humid = hum * 100, 
+         wind = windspeed * 67)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Check that the sum of <code>casual</code> and
 <code>registered</code> adds up to <code>cnt</code> for each record.
 <strong>Hint:</strong> One way of doing this is to create a new column
 that takes on the value <code>TRUE</code> if they add up and
 <code>FALSE</code> if not, and then checking if all values in that
 column are <code>TRUE</code>s. But this is only one way, you might come
-up with another.</p></li>
+up with another.</li>
 </ol>
 <p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an
 appropriate commit message. Make sure to commit and push all changed
