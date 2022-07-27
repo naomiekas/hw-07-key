@@ -451,10 +451,17 @@ with no as the baseline level.</li>
 </ol>
 <pre class="r"><code>dcbikeshare &lt;- dcbikeshare%&gt;%
   mutate(holiday = as.factor(holiday))%&gt;%
-  mutate(workingday = as.factor(workingday))</code></pre>
+  mutate(workingday = as.factor(workingday))%&gt;%
+  mutate(holiday = fct_recode(holiday, no = &quot;0&quot;, yes = &quot;1&quot;))%&gt;%
+  mutate(workingday = fct_recode(workingday, no = &quot;0&quot;, yes = &quot;1&quot;))</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Recode the <code>yr</code> variable to be a factor with levels
-2011 and 2012, with 2011 as the baseline level.</p></li>
+<li>Recode the <code>yr</code> variable to be a factor with levels 2011
+and 2012, with 2011 as the baseline level.</li>
+</ol>
+<pre class="r"><code>dcbikeshare &lt;- dcbikeshare%&gt;%
+  mutate(yr = as.factor(yr))%&gt;%
+  mutate(yr = fct_recode(yr, &quot;2011&quot; = &quot;0&quot;, &quot;2012&quot; = &quot;1&quot;))</code></pre>
+<ol start="4" style="list-style-type: decimal">
 <li><p>Recode the <code>weathersit</code> variable as 1 - clear, 2 -
 mist, 3 - light precipitation, and 4 - heavy precipitation, with clear
 as the baseline.</p></li>
