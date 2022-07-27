@@ -511,6 +511,11 @@ temperature.</li>
 <li>Create a visualization displaying the relationship between bike
 rentals and season. Interpret the plot in context of the data.</li>
 </ol>
+<pre class="r"><code>dcbikeshare%&gt;%
+  ggplot(aes(x = cnt, fill = season)) + 
+  geom_density()</code></pre>
+<p><strong>Lots of different options available. This is just a simple
+one.</strong></p>
 <p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an
 appropriate commit message. Make sure to commit and push all changed
 files so that your Git pane is cleared up afterwards.</em></p>

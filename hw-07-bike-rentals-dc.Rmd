@@ -155,6 +155,14 @@ dcbikeshare %>%
 
 8.  Create a visualization displaying the relationship between bike rentals and season. Interpret the plot in context of the data.
 
+```{r}
+dcbikeshare%>%
+  ggplot(aes(x = cnt, fill = season)) + 
+  geom_density()
+```
+
+**Lots of different options available. This is just a simple one.**
+
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 ## Modelling
