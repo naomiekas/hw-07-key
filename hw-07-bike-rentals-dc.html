@@ -412,7 +412,8 @@ wrangling and visualization and the data lives in the
 <strong>dsbox</strong> package. You can load them by running the
 following in your Console:</p>
 <pre class="r"><code>library(tidyverse)
-library(dsbox)</code></pre>
+library(dsbox)
+library(tidymodels)</code></pre>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
@@ -523,32 +524,93 @@ files so that your Git pane is cleared up afterwards.</em></p>
 <div id="modelling" class="section level2">
 <h2>Modelling</h2>
 <ol start="9" style="list-style-type: decimal">
-<li><p>Fit a linear model predicting total daily bike rentals from daily
+<li>Fit a linear model predicting total daily bike rentals from daily
 temperature. Interpret the slope and the intercept in context of the
-data, and determine and interpret the <span class="math inline">\(R^2\)</span>.</p></li>
-<li><p>Fit another linear model predicting total daily bike rentals from
+data, and determine and interpret the <span class="math inline">\(R^2\)</span>.</li>
+</ol>
+<pre class="r"><code>ex9 &lt;- linear_reg()%&gt;%
+  set_engine(&quot;lm&quot;)%&gt;%
+  fit(cnt ~ rawtemp, data = dcbikeshare)
+  
+  tidy(ex9)
+
+glance(ex9)$r.squared</code></pre>
+<ol start="10" style="list-style-type: decimal">
+<li>Fit another linear model predicting total daily bike rentals from
 daily feeling temperature. Interpret the slope and the intercept in
 context of the data, and determine and interpret the <span class="math inline">\(R^2\)</span>. Is temperature or feeling
 temperature a better predictor of bike rentals? Explain your
-reasoning.</p></li>
-<li><p>Fit a model predicting total daily bike rentals from season,
-year, whether the day is holiday or not, whether the day is a workingday
-or not, the weather category, temperature, feeling temperature,
-humidity, and windspeed, as well as the interaction between feeling
-temperature and holiday. Record adjusted <span class="math inline">\(R^2\)</span> of the model.</p></li>
+reasoning.</li>
+</ol>
+<pre class="r"><code>ex10 &lt;- linear_reg()%&gt;%
+  set_engine(&quot;lm&quot;)%&gt;%
+  fit(cnt ~ feeltemp, data = dcbikeshare)
+  
+  tidy(ex10)
+
+glance(ex10)$r.squared</code></pre>
+<pre><code>**Feel temp is a tiny bit better, but not much. Using r-square to determine that**</code></pre>
+<ol start="11" style="list-style-type: decimal">
+<li>Fit a model predicting total daily bike rentals from season, year,
+whether the day is holiday or not, whether the day is a workingday or
+not, the weather category, temperature, feeling temperature, humidity,
+and windspeed, as well as the interaction between feeling temperature
+and holiday. Record adjusted <span class="math inline">\(R^2\)</span> of
+the model.</li>
+</ol>
+<pre class="r"><code>ex11 &lt;- linear_reg()%&gt;%
+  set_engine(&quot;lm&quot;)%&gt;%
+  fit(cnt ~ season + yr + holiday + workingday + weathersit + rawtemp + feeltemp + humid + wind + feeltemp*holiday, data = dcbikeshare)
+  
+  tidy(ex11)
+
+glance(ex11)$adj.r.squared</code></pre>
+<pre><code>**adjusted r-square is .8201774**</code></pre>
+<ol start="12" style="list-style-type: decimal">
 <li><p>Write the linear models for holidays and non-holidays. Is the
 slope of temperature the same or different for these two models? How
-about the slope for feeling temperature? Why or why not?</p></li>
+about the slope for feeling temperature? Why or why not?</p>
+<p><strong>This is a bit of a trick question and vague wording. We have
+the interaction term. That term is telling us that there is a different
+slope for holidays v. non-holidays. Writing out the linear model means
+the raw regression equation for holiday v. non-holiday</strong></p>
+<p><strong>Count = 2715 - 277(summer) + 410(fall) - 1131(winter) +
+2014(2012) - 1384(holidayyes) + 120(workingday) -420(mist) - 1907(light)
++ 103<em>rawtemp + 18.8</em>feeltemp - 13.6<em>humid - 40.6</em>wind +
+34.4<em>holidayyes</em>feeltemp</strong></p>
+<p><strong>NOT HoLIDAY: 2715 - 277(summer) + 410(fall) - 1131(winter) +
+2014(2012) - 0 (holidayno) + 120(workingday) -420(mist) - 1907(light) +
+103<em>rawtemp + 18.8</em>feeltemp - 13.6<em>humid - 40.6</em>wind +
+34.4<em>0(holidayno)</em>feeltemp</strong></p>
+<p><strong>Basically in the not holiday we are plugging in a zero
+wherever we see holiday</strong></p>
+<p><strong>You could have run two separate regression equations, but
+remember that they needed ALL of the same predictor variables as the
+original model.</strong></p></li>
 <li><p>Interpret the slopes of season and feeling temperature. If the
 slopes are different for holidays and non-holidays, make sure to
 interpret both. If the variable has multiple levels, make sure you
-interpret all of the slope coefficients associated with it.</p></li>
+interpret all of the slope coefficients associated with it.</p>
+<p><strong>Season - everything else held constant, there are less bike
+rentals in the summer compared to the spring, more in the fall and less
+in winter</strong> <strong>Every additional degree increase in
+temperature C, the number of bike rentals increases by 18.8</strong>
+<strong>Because we have the interaction with feel temperature, we would
+need to interpret that for both levels of holiday. When holiday = yes
+the association between feeltemp and count is positive. So each
+additional degree of feeltemp on a holiday, compared to nonholiday,
+increases rentals by 18.8 + 34.4</strong></p></li>
 <li><p>Interpret the intercept. If the intercept is different for
-holidays and non-holidays, make sure to interpret both.</p></li>
+holidays and non-holidays, make sure to interpret both.</p>
+<p><strong>The amount of bike rentals when everything is 0, so for
+non-holidays, is 2715. The count for holidays is 1384 less or
+1331</strong></p></li>
 <li><p>According to this model, assuming everything else is the same, in
 which season does the model predict total daily bike rentals to be
 highest and which to be the lowest?</p></li>
 </ol>
+<p><strong>The highest rentals appear to occur in the fall and the
+fewest in the winter</strong></p>
 <p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an
 appropriate commit message. Make sure to commit and push all changed
 files so that your Git pane is cleared up afterwards and review the md

@@ -52,6 +52,7 @@ You can load them by running the following in your Console:
 ```{r load-packages, message = FALSE, eval = TRUE}
 library(tidyverse)
 library(dsbox)
+library(tidymodels)
 ```
 
 ## Data
@@ -169,27 +170,85 @@ dcbikeshare%>%
 
 9.  Fit a linear model predicting total daily bike rentals from daily temperature.
     Interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
+    
+```{r}
+ex9 <- linear_reg()%>%
+  set_engine("lm")%>%
+  fit(cnt ~ rawtemp, data = dcbikeshare)
+  
+  tidy(ex9)
+
+glance(ex9)$r.squared
+```
+    
 
 10. Fit another linear model predicting total daily bike rentals from daily feeling temperature.
     Interpret the slope and the intercept in context of the data, and determine and interpret the $R^2$.
     Is temperature or feeling temperature a better predictor of bike rentals?
     Explain your reasoning.
+    
+```{r}
+ex10 <- linear_reg()%>%
+  set_engine("lm")%>%
+  fit(cnt ~ feeltemp, data = dcbikeshare)
+  
+  tidy(ex10)
+
+glance(ex10)$r.squared
+```
+    
+    **Feel temp is a tiny bit better, but not much. Using r-square to determine that**
 
 11. Fit a model predicting total daily bike rentals from season, year, whether the day is holiday or not, whether the day is a workingday or not, the weather category, temperature, feeling temperature, humidity, and windspeed, as well as the interaction between feeling temperature and holiday.
     Record adjusted $R^2$ of the model.
+    
+```{r}
+ex11 <- linear_reg()%>%
+  set_engine("lm")%>%
+  fit(cnt ~ season + yr + holiday + workingday + weathersit + rawtemp + feeltemp + humid + wind + feeltemp*holiday, data = dcbikeshare)
+  
+  tidy(ex11)
+
+glance(ex11)$adj.r.squared
+```
+    
+    **adjusted r-square is .8201774**
 
 12. Write the linear models for holidays and non-holidays.
     Is the slope of temperature the same or different for these two models?
     How about the slope for feeling temperature?
     Why or why not?
+    
+    **This is a bit of a trick question and vague wording. We have the interaction term. That term is telling us that there is a different 
+    slope for holidays v. non-holidays. Writing out the linear model means the raw regression equation for holiday v. non-holiday**
+    
+    **Count = 2715 - 277(summer) + 410(fall) - 1131(winter) + 2014(2012) - 1384(holidayyes) + 120(workingday) -420(mist) - 1907(light) + 103*rawtemp + 18.8*feeltemp - 13.6*humid - 40.6*wind + 34.4*holidayyes*feeltemp**
+    
+    **NOT HoLIDAY: 2715 - 277(summer) + 410(fall) - 1131(winter) + 2014(2012) - 0 (holidayno) + 120(workingday) -420(mist) - 1907(light) + 103*rawtemp + 18.8*feeltemp - 13.6*humid - 40.6*wind + 34.4*0(holidayno)*feeltemp**
+    
+    **Basically in the not holiday we are plugging in a zero wherever we see holiday**
+    
+    **You could have run two separate regression equations, but remember that they needed ALL of the same predictor variables as the original model.**
+    
 
 13. Interpret the slopes of season and feeling temperature.
     If the slopes are different for holidays and non-holidays, make sure to interpret both.
     If the variable has multiple levels, make sure you interpret all of the slope coefficients associated with it.
+    
+    **Season - everything else held constant, there are less bike rentals in the summer compared to the spring, more in the fall and less in 
+    winter**
+    **Every additional degree increase in temperature C, the number of bike rentals increases by 18.8**
+    **Because we have the interaction with feel temperature, we would need to interpret that for both levels of holiday. When holiday = yes the association between feeltemp and count is positive. So each additional degree of feeltemp on a holiday, compared to nonholiday, increases rentals by 18.8 + 34.4**
+
+    
 
 14. Interpret the intercept.
     If the intercept is different for holidays and non-holidays, make sure to interpret both.
+    
+    **The amount of bike rentals when everything is 0, so for non-holidays, is 2715. The count for holidays is 1384 less or 1331**  
 
 15. According to this model, assuming everything else is the same, in which season does the model predict total daily bike rentals to be highest and which to be the lowest?
+
+**The highest rentals appear to occur in the fall and the fewest in the winter**
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
