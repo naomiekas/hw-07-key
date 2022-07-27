@@ -490,6 +490,10 @@ that takes on the value <code>TRUE</code> if they add up and
 column are <code>TRUE</code>s. But this is only one way, you might come
 up with another.</li>
 </ol>
+<pre class="r"><code>dcbikeshare%&gt;%
+  mutate(sumttl = casual + registered)%&gt;%
+  mutate(comparison = if_else(sumttl == cnt, 1, 0))%&gt;%
+  count(comparison)</code></pre>
 <p>🧶 ✅ ⬆️ Knit, <em>commit, and push your changes to GitHub with an
 appropriate commit message. Make sure to commit and push all changed
 files so that your Git pane is cleared up afterwards.</em></p>

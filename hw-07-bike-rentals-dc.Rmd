@@ -123,6 +123,14 @@ dcbikeshare <- dcbikeshare%>%
 6.  Check that the sum of `casual` and `registered` adds up to `cnt` for each record.
     **Hint:** One way of doing this is to create a new column that takes on the value `TRUE` if they add up and `FALSE` if not, and then checking if all values in that column are `TRUE`s.
     But this is only one way, you might come up with another.
+    
+```{r}
+dcbikeshare%>%
+  mutate(sumttl = casual + registered)%>%
+  mutate(comparison = if_else(sumttl == cnt, 1, 0))%>%
+  count(comparison)
+```
+    
 
 🧶 ✅ ⬆️ Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
